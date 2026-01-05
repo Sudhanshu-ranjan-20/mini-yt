@@ -70,5 +70,9 @@ class AuthController {
       throw error;
     }
   }
+  async logout(_req: FastifyRequest, reply: FastifyReply) {
+    reply.clearCookie("access_token", { path: "/" });
+    return { ok: true };
+  }
 }
 export default AuthController;

@@ -9,6 +9,12 @@ const routes: FastifyPluginAsync = async (app) => {
     { schema: Validator.signupSchema() },
     authController.signup.bind(authController)
   );
+  app.post(
+    "/login",
+    { schema: Validator.loginSchema() },
+    authController.login.bind(authController)
+  );
+  app.post("/logout", authController.logout.bind(authController));
 };
 
 export default routes;
