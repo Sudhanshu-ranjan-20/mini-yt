@@ -18,8 +18,7 @@ class UserRepository {
   createUser(userBody: {}) {
     return this.db(this.TB_USER)
       .insert(userBody)
-      .returning(this.returningObject)
-      .first();
+      .returning(this.returningObject);
   }
 }
 export default UserRepository;

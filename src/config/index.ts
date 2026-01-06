@@ -23,4 +23,7 @@ export const ENV = {
   SQS_VIDEO_QUEUE: must("SQS_VIDEO_QUEUE"),
 
   JWT_SECRET: must("JWT_SECRET"),
+
+  ACCESS_TOKEN_TTL: process.env.ACCESS_TOKEN_TTL ?? "15m",
+  REFRESH_TOKEN_TTL: process.env.REFRESH_TOKEN_TTL ?? 14,
 };

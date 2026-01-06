@@ -1,10 +1,9 @@
 import { FastifyInstance, FastifyRequest } from "fastify";
-import sensible from "@fastify/sensible";
+import fp from "fastify-plugin";
 import { ENV } from "../../config";
 
-export async function authPlugin(app: FastifyInstance) {
+export default fp(async function authPlugin(app: FastifyInstance) {
   await app.register(import("@fastify/cookie"));
-  await app.register(sensible);
 
   await app.register(import("@fastify/jwt"), {
     secret: ENV.JWT_SECRET,
@@ -25,7 +24,7 @@ export async function authPlugin(app: FastifyInstance) {
       }
     }
   );
-}
+});
 
 declare module "fastify" {
   interface FastifyInstance {

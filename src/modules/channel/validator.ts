@@ -15,10 +15,6 @@ class Validator {
             pattern: "^[a-zA-Z0-9][a-zA-Z0-9_]*$",
             minLength: 3,
             maxLength: 30,
-            errorMessage: {
-              pattern:
-                "Handle can only contain letters, numbers, and underscores",
-            },
           },
         },
       },
