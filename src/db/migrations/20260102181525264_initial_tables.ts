@@ -45,9 +45,9 @@ async function createVideosTable(knex: Knex): Promise<void> {
       tbl.text("title").notNullable();
       tbl.text("description");
       tbl.enu("visibility", ENUMS.VISIBILITY).defaultTo(DEFAULTS.VISIBILITY);
-      tbl.enu("status", ENUMS.STATUS).defaultTo(DEFAULTS.STATUS);
+      tbl.enu("status", ENUMS.STATUS).defaultTo(DEFAULTS.VIDEO_UPLOAD_STATUS);
 
-      tbl.text("raw_location").notNullable();
+      tbl.text("raw_s3_key").notNullable();
       tbl.text("processed_prefix");
       tbl.bigint("duration");
 

@@ -4,8 +4,10 @@ import {
   SQSClientConfig,
   CreateQueueCommandInput,
   GetQueueUrlCommand,
+  SendMessageCommand,
 } from "@aws-sdk/client-sqs";
 import { ENV } from "../config";
+import { logger } from "../utilities";
 class SqsService {
   private sqsConfig: SQSClientConfig;
   private sqsClient: SQSClient;
@@ -24,6 +26,7 @@ class SqsService {
 
   async createQueue(name: string): Promise<String | undefined> {
     try {
+      logger.info("SqsService.createQueue called::");
       const isFifo = name.endsWith(".fifo");
       const inputData: CreateQueueCommandInput = {
         QueueName: name,
@@ -45,7 +48,28 @@ class SqsService {
         );
         return;
       }
-      console.error("Queue cannot be created", error);
+      logger.error("SqsService.createQueue error::", error);
+      throw error;
+    }
+  }
+
+  async sendEvent({
+    payload,
+    queueUrl,
+  }: {
+    payload: any;
+    queueUrl: string;
+  }): Promise<void> {
+    try {
+      logger.info("SqsService.sendEvent called::");
+      await this.sqsClient.send(
+        new SendMessageCommand({
+          QueueUrl: queueUrl,
+          MessageBody: JSON.stringify(payload),
+        })
+      );
+    } catch (error) {
+      logger.error("SqsService.error called:::");
     }
   }
 }

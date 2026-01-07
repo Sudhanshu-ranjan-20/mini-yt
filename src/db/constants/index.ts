@@ -7,7 +7,7 @@ export const TABLES = {
 export const DEFAULTS = {
   SCHEMA: "mini-yt",
   VISIBILITY: "PRIVATE",
-  STATUS: "UPLOADING",
+  VIDEO_UPLOAD_STATUS: "UPLOADING",
 };
 
 export const ENUMS = {
