@@ -12,8 +12,7 @@ class ChannelRepository {
   createChannel(channelBody: IChannel) {
     return this.db(this.tbChannel)
       .insert(channelBody)
-      .returning(this.returningFields)
-      .first();
+      .returning(this.returningFields);
   }
   getChannel(conditions: TGetChannelParams) {
     return this.db(this.tbChannel)

@@ -16,6 +16,9 @@ export async function buildApp() {
   await app.register(import("./modules/channel/routes"), {
     prefix: "/channel",
   });
+  await app.register(import("./modules/videos/routes"), {
+    prefix: "/video",
+  });
   app.get("/health", async () => ({}));
 
   app.addHook("onClose", async () => {

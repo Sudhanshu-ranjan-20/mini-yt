@@ -34,7 +34,7 @@ class ChannelController {
       if (handleData)
         throw this.app.httpErrors.conflict("Handle name is already taken");
 
-      const channel = await this.channelRepository.createChannel({
+      const [channel] = await this.channelRepository.createChannel({
         name,
         handle,
         owner: user.id,
