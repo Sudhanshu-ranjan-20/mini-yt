@@ -96,7 +96,7 @@ class VideoController {
         queueUrl: CONFIG.QUEUES_URL.VIDEO_PROCESSING,
         payload: {
           videoId: video.id,
-          rawS3Key: video.raw_s3_key,
+          rawKey: video.raw_s3_key,
         },
       });
 

@@ -1,7 +1,5 @@
 import bcrypt from "bcryptjs";
-import { FastifyInstance } from "fastify";
-import crypto from "crypto";
-import { ENV } from "../config";
+
 export async function hashPassword(
   password: string,
   salts: number = 10

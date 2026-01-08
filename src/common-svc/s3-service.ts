@@ -1,5 +1,6 @@
 import {
   CreateBucketCommand,
+  GetObjectCommand,
   HeadObjectCommand,
   PutObjectCommand,
   S3Client,
@@ -9,6 +10,8 @@ import { ENV } from "../config";
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 import { logger } from "../utilities";
 import { inspect } from "util";
+import { pipeline } from "stream/promises";
+import fs from "fs";
 
 class S3Service {
   private S3Config: S3ClientConfig;
@@ -47,15 +50,17 @@ class S3Service {
     key,
     contentType,
     expiresIn = 3600,
+    bucket = ENV.S3_RAW_BUCKET,
   }: {
     key: string;
     contentType: string;
     expiresIn?: number;
+    bucket?: string;
   }): Promise<string> {
     try {
       logger.info("S3Service.getSignedUploadUrl called::");
       const command = new PutObjectCommand({
-        Bucket: ENV.S3_RAW_BUCKET,
+        Bucket: bucket,
         Key: key,
         ContentType: contentType,
       });
@@ -67,12 +72,15 @@ class S3Service {
     }
   }
 
-  async assetExists(key: string): Promise<boolean> {
+  async assetExists(
+    key: string,
+    bucket: string = ENV.S3_RAW_BUCKET
+  ): Promise<boolean> {
     try {
       logger.info("S3Service.assetExists called::");
       await this.S3Client.send(
         new HeadObjectCommand({
-          Bucket: ENV.S3_RAW_BUCKET,
+          Bucket: bucket,
           Key: key,
         })
       );
@@ -88,6 +96,48 @@ class S3Service {
       logger.error("S3Service.assetExists error::", inspect(error));
       throw error;
     }
+  }
+
+  async download({
+    key,
+    outputPath,
+    bucket = ENV.S3_RAW_BUCKET,
+  }: {
+    key: string;
+    outputPath: string;
+    bucket?: string;
+  }) {
+    const res = await this.S3Client.send(
+      new GetObjectCommand({
+        Bucket: bucket,
+        Key: key,
+      })
+    );
+
+    if (!res.Body) throw new Error("Missing S3 Body");
+
+    await pipeline(res.Body as any, fs.createWriteStream(outputPath));
+  }
+
+  async upload({
+    key,
+    inputFilePath,
+    bucket = ENV.S3_PROCESSED_BUCKET,
+    contentType,
+  }: {
+    key: string;
+    inputFilePath: string;
+    bucket?: string;
+    contentType?: string;
+  }) {
+    await this.S3Client.send(
+      new PutObjectCommand({
+        Bucket: bucket,
+        Key: key,
+        Body: fs.createReadStream(inputFilePath),
+        ContentType: contentType,
+      })
+    );
   }
 }
 
