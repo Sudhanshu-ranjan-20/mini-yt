@@ -5,7 +5,7 @@ import type { FromSchema } from "json-schema-to-ts";
 import Validator from "./validator";
 import { DEFAULTS } from "../../db/constants";
 import { S3Service, SqsService } from "../../common-svc";
-import { ENV } from "../../config";
+import { ENV, CONFIG } from "../../config";
 import { logger } from "../../utilities";
 
 type CreateVideoBody = FromSchema<typeof Validator.createVideoSchema.body>;
@@ -93,7 +93,7 @@ class VideoController {
       // push it to the queue for workers to process the raw files
 
       await SqsService.sendEvent({
-        queueUrl: "",
+        queueUrl: CONFIG.QUEUES_URL.VIDEO_PROCESSING,
         payload: {
           videoId: video.id,
           rawS3Key: video.raw_s3_key,
