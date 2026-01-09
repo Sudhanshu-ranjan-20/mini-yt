@@ -1,2 +1,83 @@
+# ===============================
+# Dependencies
+# ===============================
 node_modules/
+.pnp.*
+.pnpm-store/
+
+# ===============================
+# Turborepo
+# ===============================
+.turbo/
+
+# ===============================
+# Build outputs (JS / TS)
+# ===============================
+dist/
+build/
+out/
+
+# Next.js
+.next/
+!.next/cache/
+
+# ===============================
+# Logs
+# ===============================
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# ===============================
+# Environment variables
+# ===============================
 .env
+.env.*
+!.env.example
+
+# ===============================
+# TypeScript
+# ===============================
+*.tsbuildinfo
+
+# ===============================
+# Python (Lambda workers)
+# ===============================
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.egg-info/
+.eggs/
+.pytest_cache/
+.mypy_cache/
+.venv/
+venv/
+.env.python
+
+# Lambda / Serverless artifacts
+*.zip
+
+# ===============================
+# OS / Editor
+# ===============================
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+
+# ===============================
+# Coverage / Tests
+# ===============================
+coverage/
+.nyc_output/
+
+# ===============================
+# Misc
+# ===============================
+.cache/
+tmp/
+temp/
