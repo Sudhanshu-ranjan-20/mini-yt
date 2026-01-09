@@ -1,20 +1,19 @@
 import { FastifyInstance, FastifyReply, FastifyRequest } from "fastify";
-import { ChannelRepository, UserRepository } from "../../repository-svc";
-import { IChannelBody } from "../../schemas/channel-schema";
-import { logger } from "../../utilities";
+import { Repository } from "@mini-yt/svc";
+import { logger, types } from "@mini-yt/shared";
 import { inspect } from "util";
 
 class ChannelController {
   private app: FastifyInstance;
-  private channelRepository: ChannelRepository;
-  private userRepository: UserRepository;
+  private channelRepository: Repository.ChannelRepository;
+  private userRepository: Repository.UserRepository;
   constructor(app: FastifyInstance) {
     this.app = app;
-    this.channelRepository = new ChannelRepository(this.app.db);
-    this.userRepository = new UserRepository(this.app.db);
+    this.channelRepository = new Repository.ChannelRepository(this.app.db);
+    this.userRepository = new Repository.UserRepository(this.app.db);
   }
   async createChannel(
-    req: FastifyRequest<{ Body: IChannelBody }>,
+    req: FastifyRequest<{ Body: types.schema.channel.IChannelBody }>,
     reply: FastifyReply
   ) {
     try {

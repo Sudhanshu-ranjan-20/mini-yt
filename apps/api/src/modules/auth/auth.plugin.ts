@@ -1,6 +1,6 @@
 import { FastifyInstance, FastifyRequest } from "fastify";
 import fp from "fastify-plugin";
-import { ENV } from "../../config";
+import { ENV } from "@mini-yt/shared";
 
 export default fp(async function authPlugin(app: FastifyInstance) {
   await app.register(import("@fastify/cookie"));

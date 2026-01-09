@@ -1,12 +1,9 @@
 import { FastifyInstance, FastifyRequest } from "fastify";
 import { v7 } from "uuid";
-import { ChannelRepository, VideoRepository } from "../../repository-svc";
+import { Repository, AWS } from "@mini-yt/svc";
 import type { FromSchema } from "json-schema-to-ts";
 import Validator from "./validator";
-import { DEFAULTS } from "../../db/constants";
-import { S3Service, SqsService } from "../../common-svc";
-import { ENV, CONFIG } from "../../config";
-import { logger } from "../../utilities";
+import { logger, ENV, CONFIG, CONSTANTS } from "@mini-yt/shared";
 
 type CreateVideoBody = FromSchema<typeof Validator.createVideoSchema.body>;
 type FinalizeVideoParams = FromSchema<
@@ -18,12 +15,12 @@ type GetVideoMetaDataParams = FromSchema<
 
 class VideoController {
   private app: FastifyInstance;
-  private videoRepository: VideoRepository;
-  private channelRepository: ChannelRepository;
+  private videoRepository: Repository.VideoRepository;
+  private channelRepository: Repository.ChannelRepository;
   constructor(app: FastifyInstance) {
     this.app = app;
-    this.videoRepository = new VideoRepository(app.db);
-    this.channelRepository = new ChannelRepository(app.db);
+    this.videoRepository = new Repository.VideoRepository(app.db);
+    this.channelRepository = new Repository.ChannelRepository(app.db);
   }
   async uploadVideo(req: FastifyRequest<{ Body: CreateVideoBody }>) {
     try {
@@ -45,11 +42,11 @@ class VideoController {
         title,
         channel: channel.id,
         description,
-        status: DEFAULTS.VIDEO_UPLOAD_STATUS,
+        status: CONSTANTS.DATABASE.DEFAULTS.VIDEO_UPLOAD_STATUS,
         raw_s3_key: rawS3Key,
       });
 
-      const uploadUrl = await S3Service.getSignedUploadUrl({
+      const uploadUrl = await AWS.S3Service.getSignedUploadUrl({
         key: rawS3Key,
         contentType,
       });
@@ -86,13 +83,13 @@ class VideoController {
 
       // check if the video exists in S3
 
-      const doesVideoExists = await S3Service.assetExists(video.raw_s3_key);
+      const doesVideoExists = await AWS.S3Service.assetExists(video.raw_s3_key);
       if (!doesVideoExists)
         throw this.app.httpErrors.notFound("Video is not there in S3");
 
       // push it to the queue for workers to process the raw files
 
-      await SqsService.sendEvent({
+      await AWS.SqsService.sendEvent({
         queueUrl: CONFIG.QUEUES_URL.VIDEO_PROCESSING,
         payload: {
           videoId: video.id,

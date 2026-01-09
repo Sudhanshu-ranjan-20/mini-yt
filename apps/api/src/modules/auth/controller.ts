@@ -1,10 +1,9 @@
 import { FastifyInstance, FastifyReply, FastifyRequest } from "fastify";
-import { AuthUtils, logger } from "../../utilities";
 import { inspect } from "util";
 import crypto from "crypto";
 import bcrypt from "bcryptjs";
 import { Repository } from "@mini-yt/svc";
-import { ENV, types } from "@mini-yt/shared";
+import { ENV, types, AuthUtils, logger } from "@mini-yt/shared";
 
 class AuthController {
   private userRepository;
