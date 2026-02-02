@@ -1,0 +1,18 @@
+{
+  "extends": "@mini-yt/typescript-config/base.json",
+  "compilerOptions": {
+    "rootDir": "src",
+    "outDir": "dist",
+
+    "declaration": true,
+    "declarationMap": true,
+
+    "noEmit": false,
+
+    "module": "es2020",
+    "moduleResolution": "bundler",
+
+    "types": ["node"]
+  },
+  "include": ["src", "src/scripts"]
+}

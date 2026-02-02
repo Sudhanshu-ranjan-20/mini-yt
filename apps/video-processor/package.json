@@ -1,0 +1,20 @@
+{
+  "name": "@mini-yt/video-processor",
+  "private": true,
+  "type": "commonjs",
+  "version": "0.0.1",
+  "scripts": {
+    "dev": "tsx watch src/server.ts",
+    "build": "tsc"
+  },
+  "dependencies": {
+    "@mini-yt/shared": "^0.0.1",
+    "@mini-yt/database": "^0.0.2",
+    "@mini-yt/svc": "^0.0.2"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.0",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.2"
+  }
+}

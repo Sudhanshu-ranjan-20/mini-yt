@@ -1,7 +1,9 @@
 {
   "name": "@mini-yt/database",
-  "version": "0.0.1",
-  "private": true,
+  "version": "0.0.2",
+  "private": false,
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
@@ -17,7 +19,7 @@
     "rollback": "tsx src/scripts/rollback.ts"
   },
   "dependencies": {
-    "@mini-yt/shared": "*",
+    "@mini-yt/shared": "^0.0.1",
     "dotenv": "^17.2.3",
     "knex": "^3.1.0",
     "pg": "^8.16.3"

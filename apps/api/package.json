@@ -1,15 +1,11 @@
 {
-  "name": "mini-yt",
+  "name": "@mini-yt/api",
   "private": true,
+  "version": "0.0.1",
   "type": "commonjs",
   "scripts": {
     "dev": "tsx watch src/server.ts",
-    "build": "tsc",
-    "infra:init": "tsx src/infra/init.ts",
-    "create-migration": "tsx src/db/scripts/create-migrations.ts",
-    "migrate": "tsx src/db/scripts/migrate.ts",
-    "seed": "tsx src/db/scripts/seed.ts",
-    "rollback": "tsx src/db/scripts/rollback.ts"
+    "build": "tsc"
   },
   "dependencies": {
     "@mini-yt/shared": "*",
@@ -23,7 +19,6 @@
     "fastify": "^5.6.2",
     "json-schema-to-ts": "^3.1.1",
     "knex": "^3.1.0",
-    "pg": "^8.12.0",
     "uuid": "^13.0.0"
   },
   "devDependencies": {
