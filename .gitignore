@@ -4,6 +4,7 @@
 node_modules/
 .pnp.*
 .pnpm-store/
+.npmrc
 
 # ===============================
 # Turborepo
